@@ -1,0 +1,21 @@
+@import "styles/variables";
+html,
+body{
+  margin: 0;
+  padding: 0;
+  background-color: $color-background;
+  font-family: 'Roboto', sans-serif;
+  button, li{
+    cursor: pointer;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+}
+
+* {
+  box-sizing: border-box;
+}

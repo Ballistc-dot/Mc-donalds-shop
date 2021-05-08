@@ -1,0 +1,31 @@
+{
+  "name": "McDonalsShopBackend",
+  "version": "1.0.0",
+  "description": "a simple mc donalds shop",
+  "main": "server.ts",
+  "author": "Ballistc",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev ./src/server.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "2.21.2",
+    "@types/jsonwebtoken": "^8.5.1",
+    "apollo-server": "^2.23.0",
+    "class-validator": "^0.13.1",
+    "graphql": "^15.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.1.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "prisma": "2.21.2",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4"
+  }
+}
