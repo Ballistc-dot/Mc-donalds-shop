@@ -19,6 +19,8 @@ export default NextAuth({
   ],
   events: {
     async signIn(message) {
+      //const client = CreateApolloClient()
+
       const token = `${message.account.idToken}`
       const name = `${message.user.name}`
       const email = `${message.user.email}`
@@ -26,9 +28,7 @@ export default NextAuth({
       const mutation = gql`
         mutation($name:String!,$email:String!,$googleToken:String!){
           createUser(name:$name email:$email googleToken:$googleToken){
-            
               email
-            
           }
         }
       `
@@ -39,8 +39,7 @@ export default NextAuth({
           email,
           googleToken: token
         }
-      }).then(result => console.log(result.data.createUser));
-
+      })
     },
     async signOut(message) { /* on signout */ },
     async createUser(message) { console.log("create") },

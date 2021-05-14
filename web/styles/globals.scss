@@ -1,19 +1,26 @@
 @import "styles/variables";
 html,
-body{
+body {
   margin: 0;
   padding: 0;
   background-color: $color-background;
-  font-family: 'Roboto', sans-serif;
-  button, li{
+  font-family: "Roboto", sans-serif;
+  button,
+  li {
     cursor: pointer;
   }
 }
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 a {
   color: inherit;
   text-decoration: none;
-
 }
 
 * {

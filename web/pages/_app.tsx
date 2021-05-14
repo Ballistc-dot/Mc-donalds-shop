@@ -1,18 +1,24 @@
-import { useSession } from 'next-auth/client'
 import '../styles/globals.scss'
-import isAuthenticateWithJwt from '../utils/isAuthenticateWithJwt'
 import { AuthProvider } from '../contexts/AuthContext'
 import { ApolloProvider } from '@apollo/client';
-import client from '../utils/ApolloClient';
 import { Provider } from 'next-auth/client'
+import { CreateApolloClient } from '../utils/ApolloClient';
+import { Provider as ProviderRedux } from 'react-redux'
+import {store, persistor } from '../store'
+import { PersistGate } from 'redux-persist/integration/react'
 
 function MyApp({ Component, pageProps }) {
+  const client = CreateApolloClient()
   return (
     <ApolloProvider client={client}>
       <Provider>
-        <AuthProvider>
-          <Component {...pageProps} />
-        </AuthProvider>
+        <ProviderRedux store={store}>
+        <PersistGate persistor={persistor}>
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
+        </PersistGate>
+        </ProviderRedux>
       </Provider>
     </ApolloProvider>
 

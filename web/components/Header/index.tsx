@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image'
 import styles from './styles.module.scss'
 import Link from 'next/link'
-import { signIn, signOut, useSession } from 'next-auth/client';
+import { signIn, useSession } from 'next-auth/client';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useRouter } from 'next/router';
+
 
 const Header: React.FC = () => {
     const [session] = useSession()
+    const { logout } = useContext(AuthContext)
+    const router = useRouter()
     return (
         <header className={styles.header}>
-            <Image src="/images/logo.png" width={62}
+            <Image
+                className={styles.image}
+                onClick={() => router.push('/')}
+                src="/images/logo.png" width={62}
                 height={48} />
-            <div className={styles.right_header}>
+            <nav className={styles.right_header}>
 
                 <ul className={styles.list}>
                     <li><Link href="/">Home</Link> </li>
@@ -20,12 +28,11 @@ const Header: React.FC = () => {
                 </ul>
                 {
                     session ?
-                        <button onClick={() => signOut()}>SIGNOUT</button>
+                        <button onClick={() => logout()}>SIGNOUT</button>
                         :
                         <button onClick={() => signIn('google')}>SIGNIN</button>
                 }
-
-            </div>
+            </nav>
         </header >
     )
 }

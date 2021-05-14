@@ -12,7 +12,6 @@ export default function Index() {
             <div className={styles.texts}>
               <span>We make people happy</span>
               <span>I'm love it!</span>
-
             </div>
             <img src="images/bigmac.png" alt="" />
             <button onClick={() => router.push('/menu')}>ORDER NOW</button>

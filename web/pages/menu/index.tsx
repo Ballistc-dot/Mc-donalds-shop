@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../../components/Layout';
-import client from '../../utils/ApolloClient'
+import { CreateApolloClient } from '../../utils/ApolloClient'
 import { gql } from '@apollo/client'
 import styles from './styles.module.scss'
 import { useRouter } from 'next/router'
@@ -23,7 +23,7 @@ const Menu: React.FC<MenuProps> = ({ products }) => {
                 <div>
                     <ul className={styles.products}>
                         {products.map((v, i) => (
-                            <li onClick={() => router.push(`/product/${v.id}`)}>
+                            <li key={i} onClick={() => router.push(`/product/${v.id}`)}>
                                 <img src={v.image} />
                                 <div className={styles.description}>
                                     <h2>{v.name}</h2>
@@ -38,7 +38,10 @@ const Menu: React.FC<MenuProps> = ({ products }) => {
     )
 }
 export async function getServerSideProps(context) {
+    const client = CreateApolloClient(context.req.cookies)
+
     const query = gql`
+    
     query products{
         products{
             id
@@ -46,15 +49,17 @@ export async function getServerSideProps(context) {
             value
             image
         }
-
     }
     `
+
     const { data } = await client.query({ query })
-    console.log(data)
+
+    const products = data.products
+
     return {
         props: {
-            products: data.products
-        }, // will be passed to the page component as props
+            products
+        },
     }
 }
 

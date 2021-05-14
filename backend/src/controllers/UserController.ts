@@ -21,6 +21,7 @@ class UserArgs {
 class UserController {
     @Mutation(returns => Auth)
     async createUserToken(@Arg("email") email: string) {
+        console.log(email)
         const storagedUser = await prisma.user.findMany({
             where: {
                 email
@@ -28,9 +29,10 @@ class UserController {
         })
         if (storagedUser.length) {
             const { secret, expiresIn } = AuthConfig.jwt
+            const userId = storagedUser[0].google_id
 
             const token = sign({}, secret, {
-                subject: `${email}`,
+                subject: `${userId}`,
                 expiresIn
             })
             return {
@@ -38,22 +40,19 @@ class UserController {
                 user: storagedUser[0]
             }
         } else {
-            throw new Error("you may register")
+            throw new Error("You may register")
         }
     }
     @Mutation(returns => User)
     async createUser(@Args() { email, name, googleToken }: UserArgs) {
-        console.log("aaaaaaaaaaaaaa")
         const googleId = decode(googleToken).sub
-        console.log(email, name)
+        console.log(googleId)
         const storagedUser = await prisma.user.findMany({
             where: {
                 email
             }
         })
         if (storagedUser.length) {
-            console.log(storagedUser)
-            console.log(storagedUser[0])
             return storagedUser[0]
         }
         const user = await prisma.user.create({

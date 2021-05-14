@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
-import client from '../../../utils/ApolloClient'
+import { CreateApolloClient } from '../../../utils/ApolloClient'
 import React from 'react';
 import Layout from '../../../components/Layout';
-
 import styles from './styles.module.scss'
-
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux'
+import AddToCart from '../../../store/modules/Cart/actions'
 interface ProductProps {
     product: {
         id: number
@@ -15,6 +16,12 @@ interface ProductProps {
 }
 
 const Product: React.FC<ProductProps> = ({ product }) => {
+    const dispatch = useDispatch()
+    const router = useRouter()
+    function handleAddToCart() {
+        dispatch(AddToCart(Number(product.id)))
+        router.push("/checkout")
+    }
     return (
         <Layout title={`${product.name.toLocaleUpperCase()}`}>
             <section className={styles.section}>
@@ -24,25 +31,24 @@ const Product: React.FC<ProductProps> = ({ product }) => {
                         <h1>{product.name}</h1>
                         <h3>{product.value}</h3>
                     </div>
-                    <button>ORDER</button>
+                    <button onClick={handleAddToCart}>ORDER</button>
                 </div>
             </section>
         </Layout>
     );
 }
 export async function getServerSideProps(context) {
+    const client = CreateApolloClient(context.req.cookies)
+
     const { product: id } = context.query
 
     const query = gql`
         query($id:Float!){
          getProduct(id:$id){
-
             id
            name
            value 
-           image
-
-            
+           image 
           }
         }
       `

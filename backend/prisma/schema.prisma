@@ -21,7 +21,7 @@ model User {
   id               Int       @id @default(autoincrement())
   google_id        String    @unique
   name             String?   @db.VarChar(255)
-  email            String    @unique @db.VarChar(255)
+  email            String    @unique @db.VarChar(150)
   account_ballance Float     @default(0)
   address          Address[]
   isNewUser        Boolean   @default(true)
@@ -32,6 +32,7 @@ model Address {
   street       String
   neighborhood String
   number       Int
+  province     String @db.VarChar(50)
   userId       String
   user         User?  @relation(fields: [userId], references: [google_id])
 }

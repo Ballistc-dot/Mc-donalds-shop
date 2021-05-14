@@ -1,8 +1,8 @@
-import Cookie from 'js-cookie'
+import Cookies from 'js-cookie'
 
 function isAuthenticateWithJwt() {
-    const token = Cookie.get('token')
-
+    const token = Cookies.get('token')
+    console.log("hereaasa", token)
     return !!token
 }
 

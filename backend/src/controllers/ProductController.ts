@@ -1,7 +1,8 @@
-import { Query, Resolver, Arg, Mutation, Args, ArgsType, Field, Int } from 'type-graphql'
+import { Query, Resolver, Arg, Mutation, Args, ArgsType, Field, Int, UseMiddleware } from 'type-graphql'
 import Product from '../schema/product.schema'
 import prisma from '../utils/PrismaConnection'
 import { UserInputError } from 'apollo-server'
+import { isAuthenticated } from '../middlewares/IsAuthenticated'
 
 @ArgsType()
 class ProductArgs {
@@ -16,10 +17,12 @@ class ProductArgs {
 @Resolver(Product)
 class ProductController {
   @Query(returns => [Product])
+  @UseMiddleware(isAuthenticated)
   products() {
     return prisma.product.findMany()
 
   }
+  @UseMiddleware(isAuthenticated)
   @Query(returns => Product)
   async getProduct(@Arg("id") id: number) {
 
