@@ -1,8 +1,7 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-import client from '../../../utils/ApolloClient'
 import { gql } from '@apollo/client';
-
+import {CreateApolloClient} from '../../../utils/ApolloClient'
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -19,7 +18,7 @@ export default NextAuth({
   ],
   events: {
     async signIn(message) {
-      //const client = CreateApolloClient()
+      const client = CreateApolloClient()
 
       const token = `${message.account.idToken}`
       const name = `${message.user.name}`
@@ -42,7 +41,7 @@ export default NextAuth({
       })
     },
     async signOut(message) { /* on signout */ },
-    async createUser(message) { console.log("create") },
+    async createUser(message) {},
     async linkAccount(message) { /* account linked to a user */ },
     async session(message) { /* session is active */ },
     async error(message) { /* error in authentication flow */ }

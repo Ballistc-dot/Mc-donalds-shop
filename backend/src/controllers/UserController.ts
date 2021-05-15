@@ -21,7 +21,6 @@ class UserArgs {
 class UserController {
     @Mutation(returns => Auth)
     async createUserToken(@Arg("email") email: string) {
-        console.log(email)
         const storagedUser = await prisma.user.findMany({
             where: {
                 email
@@ -46,7 +45,6 @@ class UserController {
     @Mutation(returns => User)
     async createUser(@Args() { email, name, googleToken }: UserArgs) {
         const googleId = decode(googleToken).sub
-        console.log(googleId)
         const storagedUser = await prisma.user.findMany({
             where: {
                 email

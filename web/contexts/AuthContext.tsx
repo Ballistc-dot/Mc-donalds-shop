@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
         //client.mutate(mut)
         if (session) {
             AddUserToken({ variables: { email: session?.user?.email } })
-            console.log(data)
+
 
             const token = data?.createUserToken?.token
 

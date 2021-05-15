@@ -14,6 +14,3 @@ const app = express()
 server.applyMiddleware({ app })
 
 app.listen('4000')
-/*server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});*/

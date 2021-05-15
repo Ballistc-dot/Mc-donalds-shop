@@ -5,7 +5,7 @@ import Layout from '../../../components/Layout';
 import styles from './styles.module.scss'
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux'
-import AddToCart from '../../../store/modules/Cart/actions'
+import {AddToCart} from '../../../store/modules/Cart/actions'
 interface ProductProps {
     product: {
         id: number

@@ -6,6 +6,12 @@ interface CartProps{
     quantityById:{
         id:number
     }
+    addProduct:[{
+        id:number,
+        name:string,
+        value:number,
+        image:string
+    }]
 }
 
 export default function useCart(){
