@@ -31,7 +31,7 @@ class Ballance {
 }
 
 @Resolver(Product)
-class ProductController {
+class BallanceController {
   @UseMiddleware(isAuthenticated)
   @Query((returns) => Ballance)
   async getBallance(@Ctx() { uid }: AuthContext) {
@@ -95,4 +95,4 @@ class ProductController {
     }
   }
 }
-export default ProductController
+export default BallanceController
