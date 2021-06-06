@@ -1,55 +1,81 @@
-@import '../../styles/variables';
+@import "../../styles/variables";
 
-@media screen and (max-width:1100px) {
-    .header{
-        justify-content: center;
-        display: flex;
-        width: 100%;
-    }
-    .right_header{
-        display: none !important;
-    }
-}
-
-.image{
-    cursor: pointer;
-}
-
-.header{
-    padding: 15px 20px;
+@media screen and (max-width: 1100px) {
+  .header {
+    justify-content: center;
+    display: flex;
     width: 100%;
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    //justify-content: space-around;
-    button{
-        border:none;
-        border-radius: 8px;
-        background-color:$color-secondary;
-        padding: 15px 20px;
-        color:#f2f2f2;
-        font-weight: bold;
-    } 
+  }
+  .right_header {
+    display: none !important;
+  }
 }
 
-.list{
-    display: none;
-    list-style: none;
-   display: flex;
-    margin-right: 400px;
-    color:$color-primary;
-    font-weight: bold;
-    text-transform: uppercase;
-    li{
-        padding: 0 20px;
-    }
+.image {
+  cursor: pointer;
 }
-.right_header{
-    display: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;  
+
+.header {
+  padding: 15px 20px;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  //justify-content: space-around;
+  button {
+    border: none;
+    border-radius: 8px;
+    background-color: $color-secondary;
+    padding: 15px 20px;
+    color: #f2f2f2;
+    font-weight: bold;
+  }
+}
+
+.list {
+  display: none;
+  list-style: none;
+  display: flex;
+  margin-right: 400px;
+  color: $color-primary;
+  font-weight: bold;
+  text-transform: uppercase;
+  li {
+    padding: 0 20px;
+  }
+}
+.right_header {
+  display: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.CartIcon{
+  cursor: pointer;
+}
+
+.AccountIcon{
+  cursor: pointer;
+}
+.AccountContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AccountBox{
+  background: aliceblue;
+  z-index: 99;
+  position: absolute;
+  height: 200px;
+  top: 60px;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
 }

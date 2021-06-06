@@ -1,3 +1,4 @@
+import React from 'react'
 import styles from '../styles/Home.module.scss'
 import Layout from '../components/Layout'
 import { useRouter } from 'next/router'
@@ -11,7 +12,7 @@ export default function Index() {
           <div className={styles.paragraph}>
             <div className={styles.texts}>
               <span>We make people happy</span>
-              <span>I'm love it!</span>
+              <span>I&apos;m love it!</span>
             </div>
             <img src="images/bigmac.png" alt="" />
             <button onClick={() => router.push('/menu')}>ORDER NOW</button>

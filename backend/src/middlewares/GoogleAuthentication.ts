@@ -1,11 +1,8 @@
 import { MiddlewareFn } from 'type-graphql'
 import AuthContext from '../config/AuthContext'
-import jwtDecode from 'jwt-decode'
 import { OAuth2Client } from 'google-auth-library'
 
-interface IdToken {
-  aud: string
-}
+
 
 const client = new OAuth2Client({
   clientId: process.env.GOOGLE_CLIENT_ID,
