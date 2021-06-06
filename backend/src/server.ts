@@ -3,13 +3,14 @@ import express from 'express'
 import schema from './schema/index'
 
 const server = new ApolloServer({
-  schema, context: ({ req }) => {
+  schema,
+  context: ({ req }) => {
     const context = {
       req,
-    };
-    return context;
+    }
+    return context
   },
-});
+})
 const app = express()
 server.applyMiddleware({ app })
 

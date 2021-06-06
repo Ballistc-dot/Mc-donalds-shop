@@ -1,70 +1,110 @@
-import { Query, Resolver, Arg, Mutation, Args, ArgsType, Field, Int } from 'type-graphql'
+import {
+  Query,
+  Resolver,
+  Arg,
+  Mutation,
+  Args,
+  ArgsType,
+  Field,
+  Ctx,
+  UseMiddleware,
+} from 'type-graphql'
+import { decode, sign } from 'jsonwebtoken'
 import User from '../schema/user.schema'
 import prisma from '../utils/PrismaConnection'
-import { decode, sign } from 'jsonwebtoken'
 import AuthConfig from '../config/auth'
 import Auth from '../schema/auth.schema'
-import Product from '../schema/product.schema'
-
+import Adreess from '../schema/adreess.schema'
+import AuthContext from '../config/AuthContext'
+import { isAuthenticated } from '../middlewares/IsAuthenticated'
+import { GoogleAuthentication } from '../middlewares/GoogleAuthentication'
+import { uuid } from 'uuidv4'
 @ArgsType()
 class UserArgs {
-    @Field(type => String)
-    name: string
-    @Field(type => String)
-    email: string
-    @Field(type => String)
-    googleToken: string
+  @Field((type) => String)
+  name: string
 
+  @Field((type) => String)
+  email: string
+
+  @Field((type) => String)
+  googleToken: string
 }
 
 @Resolver(User)
 class UserController {
-    @Mutation(returns => Auth)
-    async createUserToken(@Arg("email") email: string) {
-        const storagedUser = await prisma.user.findMany({
-            where: {
-                email
-            }
-        })
-        if (storagedUser.length) {
-            const { secret, expiresIn } = AuthConfig.jwt
-            const userId = storagedUser[0].google_id
+  @UseMiddleware(GoogleAuthentication)
+  @Mutation((returns) => Auth)
+  async createUserToken(@Ctx() { email }: AuthContext) {
+    const storagedUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    })
+    if (storagedUser) {
+      const { secret, expiresIn } = AuthConfig.jwt
+      const userId = storagedUser.id
 
-            const token = sign({}, secret, {
-                subject: `${userId}`,
-                expiresIn
-            })
-            return {
-                token,
-                user: storagedUser[0]
-            }
-        } else {
-            throw new Error("You may register")
-        }
+      const token = sign({}, secret, {
+        subject: `${userId}`,
+        expiresIn,
+      })
+      return {
+        token,
+        user: storagedUser,
+      }
     }
-    @Mutation(returns => User)
-    async createUser(@Args() { email, name, googleToken }: UserArgs) {
-        const googleId = decode(googleToken).sub
-        const storagedUser = await prisma.user.findMany({
-            where: {
-                email
-            }
-        })
-        if (storagedUser.length) {
-            return storagedUser[0]
-        }
-        const user = await prisma.user.create({
-            data: {
-                google_id: googleId,
-                email,
-                name,
-            }
-        })
+    throw new Error('You may register')
+  }
 
-        return {
-            user
-        }
+  @UseMiddleware(GoogleAuthentication)
+  @Mutation((returns) => Auth)
+  async createUser(@Ctx() { email }: AuthContext) {
+    const storagedUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    })
+    const { secret, expiresIn } = AuthConfig.jwt
+    let userId
+
+    if (storagedUser) {
+      userId = storagedUser.uid
+      const token = sign({}, secret, {
+        subject: `${userId}`,
+        expiresIn,
+      })
+      return {
+        user: storagedUser,
+        token,
+      }
     }
+    const user = await prisma.user.create({
+      data: {
+        uid: uuid(),
+        email,
+      },
+    })
+    userId = user.uid
+    const token = sign({}, secret, {
+      subject: `${userId}`,
+      expiresIn,
+    })
+    return {
+      user,
+      token,
+    }
+  }
+  /* @UseMiddleware(isAuthenticated)
+  @Mutation((returns) => [Adreess])
+  async setAdreess(@Ctx() { email }: AuthContext) {
+    /*const adreess = await prisma.address.findMany({
+      where: {
+        email,
+      },
+    })
+    return adreess
+  }*/
 }
 
 export default UserController

@@ -19,9 +19,9 @@ model Product {
 
 model User {
   id               Int       @id @default(autoincrement())
-  google_id        String    @unique
+  uid              String    @unique
   name             String?   @db.VarChar(255)
-  email            String    @unique @db.VarChar(150)
+  email            String    @unique @db.VarChar(255)
   account_ballance Float     @default(0)
   address          Address[]
   isNewUser        Boolean   @default(true)
@@ -29,10 +29,10 @@ model User {
 
 model Address {
   id           Int    @id @default(autoincrement())
-  street       String
-  neighborhood String
+  uid          String
+  street       String @db.VarChar(150)
+  neighborhood String @db.VarChar(50)
   number       Int
   province     String @db.VarChar(50)
-  userId       String
-  user         User?  @relation(fields: [userId], references: [google_id])
+  user         User?  @relation(fields: [uid], references: [uid])
 }

@@ -5,7 +5,6 @@ import UserController from '../controllers/UserController'
 
 const schema = buildSchemaSync({
   resolvers: [ProductControllers, UserController],
-  
 });
 
 export default schema
