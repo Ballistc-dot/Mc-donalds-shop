@@ -22,7 +22,7 @@ class Adreess {
   user: User
 
   @Field()
-  userId: string
+  uid: string
 }
 
 export default Adreess

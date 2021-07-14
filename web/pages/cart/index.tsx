@@ -12,14 +12,24 @@ import {
 } from '../../store/modules/Cart/actions'
 import useCart from '../../hooks/useCart'
 import ReactLoading from 'react-loading'
+import { gql, useMutation } from '@apollo/client'
 
 const Checkout: React.FC = () => {
-  const { addedIds, quantityById, addProduct, loading } = useCart()
+  const { addedIds, quantityById, addProduct } = useCart()
   const inputRef = useRef<HTMLInputElement>()
   const dispatch = useDispatch()
   const router = useRouter()
   const [qnty, setQnty] = useState(quantityById)
   const [products, setProducts] = useState(addProduct)
+  const CHECKOUT = gql`
+    mutation Checkout($products: Array!) {
+      Checkout(products: $products) {
+        id
+        type
+      }
+    }
+  `
+  const [Checkout, { data }] = useMutation(CHECKOUT)
   useEffect(() => {
     dispatch(getProductsFromCart())
     setProducts(addProduct)
@@ -42,6 +52,10 @@ const Checkout: React.FC = () => {
         }
         break
     }
+  }
+
+  function handleCheckout() {
+    console.log(products)
   }
 
   return (
@@ -98,7 +112,11 @@ const Checkout: React.FC = () => {
                 <button type="button" onClick={() => router.push('/menu')}>
                   Continue buying
                 </button>
-                <button type="button" className={styles.checkout_button}>
+                <button
+                  type="button"
+                  onClick={handleCheckout}
+                  className={styles.checkout_button}
+                >
                   Checkout
                 </button>
               </div>

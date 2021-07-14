@@ -65,6 +65,11 @@ class BallanceController {
       // and you will need to prompt them for a new payment method.>
       error_on_requires_action: true,
     })
+    const lastValue = await prisma.user.findUnique({
+      where: {
+        uid,
+      },
+    })
     if (intent.status === 'succeeded') {
       // Handle post-payment fulfillment
       const user = await prisma.user.update({
@@ -72,7 +77,7 @@ class BallanceController {
           uid,
         },
         data: {
-          account_ballance: value,
+          account_ballance: lastValue.account_ballance + value,
         },
       })
       return {

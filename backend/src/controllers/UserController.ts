@@ -95,16 +95,17 @@ class UserController {
       token,
     }
   }
-  /* @UseMiddleware(isAuthenticated)
-  @Mutation((returns) => [Adreess])
-  async setAdreess(@Ctx() { email }: AuthContext) {
-    /*const adreess = await prisma.address.findMany({
-      where: {
-        email,
+  @UseMiddleware(isAuthenticated)
+  @Query((returns) => User)
+  async GetUser(@Ctx() { uid }: AuthContext) {
+    const user = await prisma.user.findUnique({
+      where: { uid },
+      include: {
+        address: { include: { user: { include: { address: true } } } },
       },
     })
-    return adreess
-  }*/
+    return user
+  }
 }
 
 export default UserController

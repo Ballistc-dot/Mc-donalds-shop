@@ -36,6 +36,7 @@ class ProductController {
 
     return product
   }
+  @UseMiddleware(isAuthenticated)
   @Mutation(returns => [Product])
   async addProduct(@Args() { name, value, image }: ProductArgs) {
     await prisma.product.create({
@@ -47,7 +48,7 @@ class ProductController {
     })
     return prisma.product.findMany()
   }
-
+  @UseMiddleware(isAuthenticated)
   @Mutation(returns => Product)
   async deleteProduct(@Arg("id") id: number) {
     try {
@@ -61,6 +62,7 @@ class ProductController {
       throw new UserInputError("This product does not exists!")
     }
   }
+  
 
 }
 export default ProductController
