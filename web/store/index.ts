@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware } from 'redux'
 import reducer from './modules/Cart/reducer'
 import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
 import sagas from './modules/Cart/saga'
+import storage from '../utils/StoragePersist'
 const persistConfig = {
   key: 'root',
   storage,

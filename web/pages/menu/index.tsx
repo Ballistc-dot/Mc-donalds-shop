@@ -38,8 +38,9 @@ const Menu: React.FC<MenuProps> = ({ products }) => {
     </Layout>
   )
 }
-export async function getServerSideProps(context) {
-  const client = CreateApolloClient(context.req.cookies)
+
+export async function getStaticProps() {
+  /*const client = CreateApolloClient()
 
   const query = gql`
     query products {
@@ -54,8 +55,30 @@ export async function getServerSideProps(context) {
 
   const { data } = await client.query({ query })
 
-  const { products } = data
-
+  //const { products } = data*/
+  const products = [
+    {
+      id: '2ewsadasd1',
+      name: 'Double Quarter',
+      value: 12,
+      image:
+        'https://res.cloudinary.com/dxrkqzroc/image/upload/v1620441797/duplo-quarterao-new_xveuvi.png',
+    },
+    {
+      id: '2ewsadasd2',
+      name: 'Big mac',
+      value: 19,
+      image:
+        'https://res.cloudinary.com/dxrkqzroc/image/upload/v1620439855/bigmac_v2_ufqvnd.png',
+    },
+    {
+      id: '2ewsadasd3',
+      name: 'Quarter',
+      value: 9,
+      image:
+        'https://res.cloudinary.com/dxrkqzroc/image/upload/v1620439724/quarteirao_sjgfk7.png',
+    },
+  ]
   return {
     props: {
       products,
